@@ -4,29 +4,34 @@ A modern clipboard manager for macOS, built with SwiftUI, SwiftData, and async/a
 
 ## Install
 
-### Option 1: Download DMG
-
-1. Download the latest `Clipy-x.x.x.dmg` from [Releases](https://github.com/ryaz/clipy-modern/releases)
-2. Open the DMG and drag **Clipy** to **Applications**
-3. Launch Clipy from Applications
-4. On first launch: right-click the app > **Open** > **Open** (required for unsigned apps)
-5. Grant **Accessibility** access in System Settings > Privacy & Security > Accessibility
-
-### Option 2: Homebrew
+### Option 1: Homebrew (recommended)
 
 ```bash
 brew tap ryaz/clipy
 brew install --cask clipy-modern
 ```
 
-Then grant Accessibility access in System Settings.
+### Option 2: Download DMG
+
+1. Download the latest `Clipy-x.x.x.dmg` from [Releases](https://github.com/ryaz/clipy-modern/releases)
+2. Open the DMG and drag **Clipy** to **Applications**
+
+### After installing
+
+1. On first launch: right-click the app > **Open** > **Open** (required for unsigned apps). If that doesn't work, run `xattr -cr /Applications/Clipy.app`
+2. Grant **Accessibility** access in **System Settings > Privacy & Security > Accessibility** (required for paste to work)
 
 ## Usage
 
-- **Cmd+Shift+V** — Open clipboard history
-- **Cmd+Shift+B** — Open snippets menu
-- Click any item to paste it
-- Right-click to pin or delete items
+| Shortcut | Action |
+|---|---|
+| **Cmd+Shift+V** | Open clipboard history |
+| **Cmd+Shift+B** | Open snippets menu |
+| **1-9** | Quick-paste item from history menu |
+
+- Select any item from the history menu to paste it into the active app
+- Items are numbered 1-30; press a number key to instantly paste that item
+- The menu appears at your cursor position
 
 ### AI Features (optional)
 

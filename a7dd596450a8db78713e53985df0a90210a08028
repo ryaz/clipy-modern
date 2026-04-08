@@ -1,0 +1,31 @@
+Clipy/Sources/Services/AIService.swift
+  c7a2606d256561ea 62
+Clipy/Sources/Models/ClipStore.swift
+  c7a2606d256561ea 76-77
+Clipy/Sources/Services/HotkeyService.swift
+  c7a2606d256561ea 13-14
+Clipy/Sources/ClipyApp.swift
+  c7a2606d256561ea 1-27
+ClipyTests/ClipyTests.swift
+  c7a2606d256561ea 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.6",
+  "base_commit_sha": "a7dd596450a8db78713e53985df0a90210a08028",
+  "prompts": {
+    "c7a2606d256561ea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe5ba9d5-7ceb-4111-a49f-efe665eeaa79",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Dmytro Riazanov",
+      "messages": [],
+      "total_additions": 33,
+      "total_deletions": 5,
+      "accepted_lines": 33,
+      "overriden_lines": 0
+    }
+  }
+}

@@ -1,0 +1,12 @@
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/ClipyApp.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Constants.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Models/ClipItem.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Models/ClipStore.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Models/SnippetModels.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/AIService.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/ClipService.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/ExcludeAppService.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/HotkeyService.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/MenuBarController.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/PasteEngine.swift
+/Users/ryaz/claudework/clipy-modern/Clipy/Sources/UI/HistoryView.swift

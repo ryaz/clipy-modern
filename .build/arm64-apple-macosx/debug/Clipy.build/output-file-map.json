@@ -1,0 +1,77 @@
+{
+  "": {
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/master.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/ClipyApp.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipyApp.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipyApp.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipyApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipyApp.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Constants.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/Constants.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/Constants.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/Constants~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/Constants.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Models/ClipItem.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipItem.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipItem.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipItem~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipItem.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Models/ClipStore.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipStore.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipStore.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipStore.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Models/SnippetModels.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/SnippetModels.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/SnippetModels.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/SnippetModels~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/SnippetModels.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/AIService.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/AIService.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/AIService.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/AIService~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/AIService.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/ClipService.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipService.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipService.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipService~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ClipService.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/ExcludeAppService.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ExcludeAppService.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ExcludeAppService.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ExcludeAppService~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/ExcludeAppService.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/HotkeyService.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/HotkeyService.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/HotkeyService.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/HotkeyService~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/HotkeyService.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/MenuBarController.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/MenuBarController.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/MenuBarController.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/MenuBarController~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/MenuBarController.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/Services/PasteEngine.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/PasteEngine.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/PasteEngine.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/PasteEngine~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/PasteEngine.swiftdeps"
+  },
+  "/Users/ryaz/claudework/clipy-modern/Clipy/Sources/UI/HistoryView.swift": {
+    "dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/HistoryView.d",
+    "object": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/HistoryView.swift.o",
+    "swiftmodule": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/HistoryView~partial.swiftmodule",
+    "swift-dependencies": "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Clipy.build/HistoryView.swiftdeps"
+  }
+}

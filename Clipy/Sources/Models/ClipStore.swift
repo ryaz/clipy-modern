@@ -73,8 +73,8 @@ final class ClipStore: ObservableObject {
     func saveSnippet(folder: SnippetFolder) { context.insert(folder); try? context.save(); loadSnippets() }
     func deleteSnippet(folder: SnippetFolder) { context.delete(folder); try? context.save(); loadSnippets() }
 
-    static func sha256(_ string: String) -> String { sha256(Data(string.utf8)) }
-    static func sha256(_ data: Data) -> String {
+    nonisolated static func sha256(_ string: String) -> String { sha256(Data(string.utf8)) }
+    nonisolated static func sha256(_ data: Data) -> String {
         SHA256.hash(data: data).compactMap { String(format: "%02x", $0) }.joined()
     }
 }

@@ -59,7 +59,7 @@ actor AIService {
     }
 
     var apiKey: String? { KeychainHelper.read(key: "anthropic-api-key") }
-    var hasAPIKey: Bool { apiKey != nil }
+    nonisolated var hasAPIKey: Bool { KeychainHelper.read(key: "anthropic-api-key") != nil }
     func setAPIKey(_ key: String) { KeychainHelper.save(key: "anthropic-api-key", value: key) }
     func removeAPIKey() { KeychainHelper.delete(key: "anthropic-api-key") }
 }

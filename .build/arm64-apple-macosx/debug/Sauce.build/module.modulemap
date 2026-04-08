@@ -1,0 +1,4 @@
+module Sauce {
+    header "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/Sauce.build/Sauce-Swift.h"
+    requires objc
+}

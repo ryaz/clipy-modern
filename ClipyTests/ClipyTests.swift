@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import Clipy
 
 final class ClipyTests: XCTestCase {

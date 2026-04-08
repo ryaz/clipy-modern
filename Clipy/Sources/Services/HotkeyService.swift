@@ -10,7 +10,7 @@ final class HotkeyService {
     static let shared = HotkeyService()
     private init() {}
     func register() {
-        KeyboardShortcuts.onKeyDown(for: .openHistory)  { Task { @MainActor in MenuBarController.shared.toggleHistoryPopover() } }
+        KeyboardShortcuts.onKeyDown(for: .openHistory)  { Task { @MainActor in MenuBarController.shared.showHistoryMenu() } }
         KeyboardShortcuts.onKeyDown(for: .openSnippets) { Task { @MainActor in MenuBarController.shared.toggleSnippetMenu() } }
     }
     func unregister() { KeyboardShortcuts.disable(.openHistory); KeyboardShortcuts.disable(.openSnippets) }

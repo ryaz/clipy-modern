@@ -12,9 +12,19 @@ struct ClipyApp: App {
     }
 }
 
-final class AppDelegate: NSObject, NSApplicationDelegate {
+@MainActor final class AppDelegate: NSObject, NSApplicationDelegate {
+    private var statusItem: NSStatusItem!
+
     func applicationDidFinishLaunching(_ notification: Notification) {
-        MenuBarController.shared.setup()
+        // Create status item directly in the delegate so it's retained
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        if let btn = statusItem.button {
+            let img = NSImage(systemSymbolName: "paperclip", accessibilityDescription: "Clipy")
+            img?.isTemplate = true
+            btn.image = img
+            btn.action = #selector(statusBarClicked)
+            btn.target = self
+        }
         HotkeyService.shared.register()
         ClipStore.shared.loadSnippets()
         Task { await ClipService.shared.startMonitoring() }
@@ -23,5 +33,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         HotkeyService.shared.unregister()
         Task { await ClipService.shared.stopMonitoring() }
+    }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
+    }
+
+    @objc private func statusBarClicked() {
+        MenuBarController.shared.showHistoryMenu()
     }
 }

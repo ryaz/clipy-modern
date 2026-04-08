@@ -1,6 +1,15 @@
 import AppKit
+import ApplicationServices
 
 enum PasteEngine {
+    /// The app that was active before Clipy's menu appeared
+    private static var previousApp: NSRunningApplication?
+
+    /// Call this before showing the menu to remember which app to paste into
+    static func savePreviousApp() {
+        previousApp = NSWorkspace.shared.frontmostApplication
+    }
+
     @MainActor static func paste(item: ClipItem) {
         let pb = NSPasteboard.general; pb.clearContents()
         switch item.clipType {
@@ -13,21 +22,29 @@ enum PasteEngine {
         case .image: if let d = item.imageData, let img = NSImage(data: d) { pb.writeObjects([img]) }
         case .unknown: if !item.stringValue.isEmpty { pb.setString(item.stringValue, forType: .string) }
         }
-        injectCmdV()
+        activateAndPaste()
     }
 
     @MainActor static func paste(string: String) {
-        NSPasteboard.general.clearContents(); NSPasteboard.general.setString(string, forType: .string); injectCmdV()
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(string, forType: .string)
+        activateAndPaste()
     }
 
-    private static func injectCmdV() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+    private static func activateAndPaste() {
+        // Reactivate the previous app, then inject Cmd+V
+        if let app = previousApp, app.bundleIdentifier != Bundle.main.bundleIdentifier {
+            app.activate()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
             guard let src = CGEventSource(stateID: .hidSystemState) else { return }
             let v: CGKeyCode = 9
             let down = CGEvent(keyboardEventSource: src, virtualKey: v, keyDown: true)
-            down?.flags = .maskCommand; down?.post(tap: .cgAnnotatedSessionEventTap)
+            down?.flags = .maskCommand
+            down?.post(tap: .cgAnnotatedSessionEventTap)
             let up = CGEvent(keyboardEventSource: src, virtualKey: v, keyDown: false)
-            up?.flags = .maskCommand; up?.post(tap: .cgAnnotatedSessionEventTap)
+            up?.flags = .maskCommand
+            up?.post(tap: .cgAnnotatedSessionEventTap)
         }
     }
 }

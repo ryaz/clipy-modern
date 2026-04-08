@@ -3,25 +3,35 @@ import SwiftUI
 
 @MainActor final class MenuBarController: NSObject {
     static let shared = MenuBarController()
-    private var statusItem: NSStatusItem?
-    private var popover: NSPopover?
-    private var eventMonitor: Any?
 
-    func setup() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let btn = statusItem?.button {
-            btn.image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "Clipy")
-            btn.action = #selector(statusButtonClicked); btn.target = self
+    func showHistoryMenu() {
+        PasteEngine.savePreviousApp()
+
+        let menu = NSMenu(title: "Clipy History")
+        let clips = ClipStore.shared.clips
+
+        if clips.isEmpty {
+            menu.addItem(NSMenuItem(title: "No items", action: nil, keyEquivalent: ""))
+        } else {
+            for (i, clip) in clips.prefix(30).enumerated() {
+                let key = i < 9 ? "\(i + 1)" : ""
+                let title = "\(i + 1). \(clip.displayTitle.prefix(80))"
+                let item = NSMenuItem(title: title, action: #selector(historyItemClicked(_:)), keyEquivalent: key)
+                if !key.isEmpty {
+                    item.keyEquivalentModifierMask = []
+                }
+                item.representedObject = clip
+                item.target = self
+                menu.addItem(item)
+            }
         }
-        let p = NSPopover(); p.contentSize = NSSize(width: 340, height: 500); p.behavior = .transient; p.animates = false
-        p.contentViewController = NSHostingController(rootView: HistoryView().environmentObject(ClipStore.shared))
-        self.popover = p
-    }
 
-    func toggleHistoryPopover() {
-        guard let btn = statusItem?.button else { return }
-        if let p = popover, p.isShown { p.performClose(nil); removeEventMonitor() }
-        else { popover?.show(relativeTo: btn.bounds, of: btn, preferredEdge: .minY); addEventMonitor() }
+        menu.addItem(.separator())
+        let clearItem = NSMenuItem(title: "Clear All", action: #selector(clearAllClicked), keyEquivalent: "")
+        clearItem.target = self
+        menu.addItem(clearItem)
+
+        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
     }
 
     func toggleSnippetMenu() {
@@ -35,17 +45,19 @@ import SwiftUI
             }
             fi.submenu = sub; menu.addItem(fi)
         }
-        statusItem?.button?.menu = menu; statusItem?.button?.performClick(nil); statusItem?.button?.menu = nil
+        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+    }
+
+    @objc private func historyItemClicked(_ sender: NSMenuItem) {
+        guard let clip = sender.representedObject as? ClipItem else { return }
+        PasteEngine.paste(item: clip)
+    }
+
+    @objc private func clearAllClicked() {
+        ClipStore.shared.clearAll()
     }
 
     @objc private func snippetClicked(_ s: NSMenuItem) {
         guard let c = s.representedObject as? String else { return }; PasteEngine.paste(string: c)
     }
-    @objc private func statusButtonClicked() { toggleHistoryPopover() }
-    private func addEventMonitor() {
-        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
-            self?.popover?.performClose(nil); self?.removeEventMonitor()
-        }
-    }
-    private func removeEventMonitor() { if let m = eventMonitor { NSEvent.removeMonitor(m); eventMonitor = nil } }
 }

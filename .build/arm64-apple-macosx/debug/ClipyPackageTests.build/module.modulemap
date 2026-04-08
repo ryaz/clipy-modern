@@ -1,4 +1,0 @@
-module ClipyPackageTests {
-    header "/Users/ryaz/claudework/clipy-modern/.build/arm64-apple-macosx/debug/ClipyPackageTests.build/ClipyPackageTests-Swift.h"
-    requires objc
-}

@@ -1,0 +1,35 @@
+.github/workflows/release.yml
+  c7a2606d256561ea 1-29
+support/Info.plist
+  c7a2606d256561ea 1-35
+.gitignore
+  c7a2606d256561ea 3
+README.md
+  c7a2606d256561ea 1-49
+support/Clipy.entitlements
+  c7a2606d256561ea 1-9
+scripts/build-app.sh
+  c7a2606d256561ea 1-65
+Makefile
+  c7a2606d256561ea 1-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.6",
+  "base_commit_sha": "1bb243dd4f81a94fea8712f634e1fd4f2aa6d2c7",
+  "prompts": {
+    "c7a2606d256561ea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe5ba9d5-7ceb-4111-a49f-efe665eeaa79",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Dmytro Riazanov",
+      "messages": [],
+      "total_additions": 204,
+      "total_deletions": 2,
+      "accepted_lines": 204,
+      "overriden_lines": 0
+    }
+  }
+}

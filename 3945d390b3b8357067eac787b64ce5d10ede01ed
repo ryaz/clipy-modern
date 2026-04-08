@@ -1,0 +1,29 @@
+Clipy/Sources/ClipyApp.swift
+  c7a2606d256561ea 15-17,19-27,37-44
+Clipy/Sources/Services/HotkeyService.swift
+  c7a2606d256561ea 13
+Clipy/Sources/Services/PasteEngine.swift
+  c7a2606d256561ea 2,5-12,25,29-31,34-39,43-44,46-47
+Clipy/Sources/Services/MenuBarController.swift
+  c7a2606d256561ea 7-26,29-34,48,51-53,55-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.6",
+  "base_commit_sha": "3945d390b3b8357067eac787b64ce5d10ede01ed",
+  "prompts": {
+    "c7a2606d256561ea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe5ba9d5-7ceb-4111-a49f-efe665eeaa79",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Dmytro Riazanov",
+      "messages": [],
+      "total_additions": 332,
+      "total_deletions": 285,
+      "accepted_lines": 85,
+      "overriden_lines": 0
+    }
+  }
+}

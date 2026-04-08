@@ -1,0 +1,23 @@
+README.md
+  c7a2606d256561ea 7,14-19,21-22,26-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.6",
+  "base_commit_sha": "32e6e6864938cae974968e5ab847747050b0fa1a",
+  "prompts": {
+    "c7a2606d256561ea": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe5ba9d5-7ceb-4111-a49f-efe665eeaa79",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Dmytro Riazanov",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 14,
+      "accepted_lines": 19,
+      "overriden_lines": 0
+    }
+  }
+}

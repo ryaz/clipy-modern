@@ -27,12 +27,12 @@ struct ClipyApp: App {
         }
         HotkeyService.shared.register()
         ClipStore.shared.loadSnippets()
-        Task { await ClipService.shared.startMonitoring() }
+        ClipService.shared.startMonitoring()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         HotkeyService.shared.unregister()
-        Task { await ClipService.shared.stopMonitoring() }
+        ClipService.shared.stopMonitoring()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

@@ -2,34 +2,43 @@ import Foundation
 import AppKit
 import SwiftData
 
-actor ClipService {
+@MainActor
+final class ClipService {
     static let shared = ClipService()
-    private var monitorTask: Task<Void, Never>?
-    private var lastChangeCount: Int = NSPasteboard.general.changeCount
+    private var timer: Timer?
+    private var lastChangeCount: Int = 0
 
     func startMonitoring() {
         stopMonitoring()
-        monitorTask = Task { [weak self] in
-            while !Task.isCancelled {
-                await self?.checkPasteboard()
-                try? await Task.sleep(for: .milliseconds(750))
-            }
+        lastChangeCount = NSPasteboard.general.changeCount
+        ProcessInfo.processInfo.disableAutomaticTermination("Clipboard monitoring")
+        if #available(macOS 12, *) {
+            ProcessInfo.processInfo.beginActivity(
+                options: [.userInitiated, .idleSystemSleepDisabled],
+                reason: "Clipboard monitoring"
+            )
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: 0.75, repeats: true) { [weak self] _ in
+            Task { @MainActor in self?.checkPasteboard() }
         }
     }
 
-    func stopMonitoring() { monitorTask?.cancel(); monitorTask = nil }
+    func stopMonitoring() {
+        timer?.invalidate()
+        timer = nil
+    }
 
-    private func checkPasteboard() async {
+    private func checkPasteboard() {
         let current = NSPasteboard.general.changeCount
         guard current != lastChangeCount else { return }
         lastChangeCount = current
         guard !ExcludeAppService.shared.frontProcessIsExcluded() else { return }
-        await createClip(from: NSPasteboard.general)
+        createClip(from: NSPasteboard.general)
     }
 
-    private func createClip(from pasteboard: NSPasteboard) async {
+    private func createClip(from pasteboard: NSPasteboard) {
         guard let item = buildClipItem(from: pasteboard) else { return }
-        await MainActor.run { ClipStore.shared.save(item) }
+        ClipStore.shared.save(item)
         Task { await AIService.shared.process(item) }
     }
 

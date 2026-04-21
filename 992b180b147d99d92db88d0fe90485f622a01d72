@@ -1,0 +1,29 @@
+Clipy/Sources/Services/ClipService.swift
+  a827568791e105d6 3-5,10,12-13,18-19,21-29,31-32,36-41,45-49,52,54-58,63-67
+Clipy/Sources/Models/SnippetModels.swift
+  a827568791e105d6 3-4,7,11-12
+Clipy/Sources/Models/ClipItem.swift
+  a827568791e105d6 28-29
+Clipy/Sources/Models/ClipStore.swift
+  a827568791e105d6 14-18,20-26,31-37,39,41,45-48,51-52,55-60,63-67,70-84,86,89-91,94-103,106-107,110-116,119-132,135-143
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "992b180b147d99d92db88d0fe90485f622a01d72",
+  "prompts": {
+    "a827568791e105d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d769c531-53d2-4d4b-99a8-78b0a60df549",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Dmytro Riazanov",
+      "messages": [],
+      "total_additions": 147,
+      "total_deletions": 90,
+      "accepted_lines": 147,
+      "overriden_lines": 0
+    }
+  }
+}

@@ -1,43 +1,70 @@
 import Foundation
 import AppKit
-import SwiftData
+import os
+
+private let logger = Logger(subsystem: "com.ryaz.clipy-modern", category: "ClipService")
 
 @MainActor
 final class ClipService {
     static let shared = ClipService()
-    private var timer: Timer?
+    private var dispatchTimer: DispatchSourceTimer?
     private var lastChangeCount: Int = 0
+    private var activityToken: NSObjectProtocol?
+    private var pollCount: UInt64 = 0
 
     func startMonitoring() {
         stopMonitoring()
         lastChangeCount = NSPasteboard.general.changeCount
+        logger.info("Starting clipboard monitoring, initial changeCount=\(self.lastChangeCount)")
+
         ProcessInfo.processInfo.disableAutomaticTermination("Clipboard monitoring")
-        if #available(macOS 12, *) {
-            ProcessInfo.processInfo.beginActivity(
-                options: [.userInitiated, .idleSystemSleepDisabled],
-                reason: "Clipboard monitoring"
-            )
+        activityToken = ProcessInfo.processInfo.beginActivity(
+            options: [.userInitiated, .idleSystemSleepDisabled],
+            reason: "Clipboard monitoring"
+        )
+
+        let timer = DispatchSource.makeTimerSource(queue: .main)
+        timer.schedule(deadline: .now(), repeating: .milliseconds(750))
+        timer.setEventHandler { [weak self] in
+            self?.checkPasteboard()
         }
-        timer = Timer.scheduledTimer(withTimeInterval: 0.75, repeats: true) { [weak self] _ in
-            Task { @MainActor in self?.checkPasteboard() }
-        }
+        timer.resume()
+        dispatchTimer = timer
     }
 
     func stopMonitoring() {
-        timer?.invalidate()
-        timer = nil
+        dispatchTimer?.cancel()
+        dispatchTimer = nil
+        if let token = activityToken {
+            ProcessInfo.processInfo.endActivity(token)
+            activityToken = nil
+        }
     }
 
     private func checkPasteboard() {
+        pollCount += 1
+        if pollCount % 400 == 0 {
+            logger.debug("Poll heartbeat #\(self.pollCount), lastChangeCount=\(self.lastChangeCount)")
+        }
+
         let current = NSPasteboard.general.changeCount
         guard current != lastChangeCount else { return }
+        logger.info("Pasteboard changed: \(self.lastChangeCount) → \(current)")
         lastChangeCount = current
-        guard !ExcludeAppService.shared.frontProcessIsExcluded() else { return }
+
+        if ExcludeAppService.shared.frontProcessIsExcluded() {
+            logger.info("Skipping — front app is excluded")
+            return
+        }
         createClip(from: NSPasteboard.general)
     }
 
     private func createClip(from pasteboard: NSPasteboard) {
-        guard let item = buildClipItem(from: pasteboard) else { return }
+        guard let item = buildClipItem(from: pasteboard) else {
+            logger.warning("buildClipItem returned nil — pasteboard had no usable content")
+            return
+        }
+        logger.info("Saving clip: type=\(item.primaryType), hash=\(item.contentHash.prefix(8))")
         ClipStore.shared.save(item)
         Task { await AIService.shared.process(item) }
     }

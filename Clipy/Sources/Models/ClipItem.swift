@@ -1,5 +1,4 @@
 import Foundation
-import SwiftData
 import AppKit
 
 enum ClipType: String, Codable, CaseIterable {
@@ -26,9 +25,8 @@ enum ClipType: String, Codable, CaseIterable {
     }
 }
 
-@Model
-final class ClipItem {
-    @Attribute(.unique) var id: UUID
+final class ClipItem: Codable, Identifiable {
+    var id: UUID
     var primaryType: String
     var stringValue: String
     var rtfData: Data?

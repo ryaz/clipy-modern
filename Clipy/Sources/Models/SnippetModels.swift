@@ -1,16 +1,15 @@
 import Foundation
-import SwiftData
 
-@Model final class SnippetFolder {
-    @Attribute(.unique) var id: UUID
+final class SnippetFolder: Codable, Identifiable {
+    var id: UUID
     var title: String
     var index: Int
-    @Relationship(deleteRule: .cascade) var items: [SnippetItem]
+    var items: [SnippetItem]
     init(title: String, index: Int = 0) { self.id = UUID(); self.title = title; self.index = index; self.items = [] }
 }
 
-@Model final class SnippetItem {
-    @Attribute(.unique) var id: UUID
+final class SnippetItem: Codable, Identifiable {
+    var id: UUID
     var title: String
     var content: String
     var index: Int

@@ -4,6 +4,7 @@ import CryptoKit
 import os
 
 private let logger = Logger(subsystem: "com.ryaz.clipy-modern", category: "ClipStore")
+private let keychainEncryptionKeyName = "clipy-modern-encryption-key"
 
 @MainActor
 final class ClipStore: ObservableObject {
@@ -14,15 +15,17 @@ final class ClipStore: ObservableObject {
     private let storageDir: URL
     private let clipsFile: URL
     private let snippetsFile: URL
+    private let encryptionKey: SymmetricKey
     private var saveWorkItem: DispatchWorkItem?
 
     private init() {
         let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         storageDir = appSupport.appendingPathComponent("com.ryaz.clipy-modern", isDirectory: true)
-        clipsFile = storageDir.appendingPathComponent("clips.json")
-        snippetsFile = storageDir.appendingPathComponent("snippets.json")
+        clipsFile = storageDir.appendingPathComponent("clips.enc")
+        snippetsFile = storageDir.appendingPathComponent("snippets.enc")
         try? FileManager.default.createDirectory(at: storageDir, withIntermediateDirectories: true)
-        clips = Self.load(from: clipsFile) ?? []
+        encryptionKey = Self.loadOrCreateKey()
+        clips = Self.loadEncrypted(from: clipsFile, key: encryptionKey) ?? Self.migratePlaintext(dir: storageDir, key: encryptionKey)
         logger.info("Loaded \(self.clips.count) clips from disk")
     }
 
@@ -74,7 +77,7 @@ final class ClipStore: ObservableObject {
     // MARK: - Snippets
 
     func loadSnippets() {
-        snippets = Self.load(from: snippetsFile) ?? []
+        snippets = Self.loadEncrypted(from: snippetsFile, key: encryptionKey) ?? []
     }
 
     func saveSnippet(folder: SnippetFolder) {
@@ -83,15 +86,15 @@ final class ClipStore: ObservableObject {
         } else {
             snippets.append(folder)
         }
-        Self.persist(snippets, to: snippetsFile)
+        Self.persistEncrypted(snippets, to: snippetsFile, key: encryptionKey)
     }
 
     func deleteSnippet(folder: SnippetFolder) {
         snippets.removeAll { $0.id == folder.id }
-        Self.persist(snippets, to: snippetsFile)
+        Self.persistEncrypted(snippets, to: snippetsFile, key: encryptionKey)
     }
 
-    // MARK: - Persistence
+    // MARK: - Encrypted Persistence
 
     private func schedulePersist() {
         saveWorkItem?.cancel()
@@ -104,26 +107,55 @@ final class ClipStore: ObservableObject {
     }
 
     private func persistClips() {
-        Self.persist(clips, to: clipsFile)
+        Self.persistEncrypted(clips, to: clipsFile, key: encryptionKey)
     }
 
-    private static func persist<T: Encodable>(_ value: T, to url: URL) {
+    private static func persistEncrypted<T: Encodable>(_ value: T, to url: URL, key: SymmetricKey) {
         do {
-            let data = try JSONEncoder().encode(value)
-            try data.write(to: url, options: .atomic)
+            let json = try JSONEncoder().encode(value)
+            let sealed = try AES.GCM.seal(json, using: key)
+            guard let combined = sealed.combined else { throw CryptoKitError.underlyingCoreCryptoError(error: 0) }
+            try combined.write(to: url, options: .atomic)
         } catch {
             logger.error("Failed to write \(url.lastPathComponent): \(error.localizedDescription)")
         }
     }
 
-    private static func load<T: Decodable>(from url: URL) -> T? {
+    private static func loadEncrypted<T: Decodable>(from url: URL, key: SymmetricKey) -> T? {
         guard let data = try? Data(contentsOf: url) else { return nil }
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            let box = try AES.GCM.SealedBox(combined: data)
+            let json = try AES.GCM.open(box, using: key)
+            return try JSONDecoder().decode(T.self, from: json)
         } catch {
-            logger.error("Failed to decode \(url.lastPathComponent): \(error.localizedDescription)")
+            logger.error("Failed to decrypt/decode \(url.lastPathComponent): \(error.localizedDescription)")
             return nil
         }
+    }
+
+    // MARK: - Encryption Key (Keychain-backed)
+
+    private static func loadOrCreateKey() -> SymmetricKey {
+        if let existing = KeychainHelper.readData(key: keychainEncryptionKeyName) {
+            return SymmetricKey(data: existing)
+        }
+        let key = SymmetricKey(size: .bits256)
+        let keyData = key.withUnsafeBytes { Data($0) }
+        KeychainHelper.saveData(key: keychainEncryptionKeyName, value: keyData)
+        logger.info("Generated new AES-256 encryption key")
+        return key
+    }
+
+    // MARK: - Migration from plaintext
+
+    private static func migratePlaintext(dir: URL, key: SymmetricKey) -> [ClipItem] {
+        let plainFile = dir.appendingPathComponent("clips.json")
+        guard let data = try? Data(contentsOf: plainFile) else { return [] }
+        guard let clips = try? JSONDecoder().decode([ClipItem].self, from: data) else { return [] }
+        logger.info("Migrating \(clips.count) clips from plaintext to encrypted")
+        persistEncrypted(clips, to: dir.appendingPathComponent("clips.enc"), key: key)
+        try? FileManager.default.removeItem(at: plainFile)
+        return clips
     }
 
     // MARK: - Helpers

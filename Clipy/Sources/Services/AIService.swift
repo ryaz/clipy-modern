@@ -83,14 +83,19 @@ actor AsyncQueue {
 
 enum KeychainHelper {
     static func save(key: String, value: String) {
-        let data = Data(value.utf8)
-        let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrAccount as String: key, kSecValueData as String: data]
-        SecItemDelete(q as CFDictionary); SecItemAdd(q as CFDictionary, nil)
+        saveData(key: key, value: Data(value.utf8))
     }
     static func read(key: String) -> String? {
+        readData(key: key).flatMap { String(data: $0, encoding: .utf8) }
+    }
+    static func saveData(key: String, value: Data) {
+        let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrAccount as String: key, kSecValueData as String: value]
+        SecItemDelete(q as CFDictionary); SecItemAdd(q as CFDictionary, nil)
+    }
+    static func readData(key: String) -> Data? {
         let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrAccount as String: key, kSecReturnData as String: true]
         var result: AnyObject?; SecItemCopyMatching(q as CFDictionary, &result)
-        return (result as? Data).flatMap { String(data: $0, encoding: .utf8) }
+        return result as? Data
     }
     static func delete(key: String) {
         SecItemDelete([kSecClass as String: kSecClassGenericPassword, kSecAttrAccount as String: key] as CFDictionary)

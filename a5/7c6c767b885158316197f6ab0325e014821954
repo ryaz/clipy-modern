@@ -1,0 +1,25 @@
+Clipy/Sources/Services/MenuBarController.swift
+  a827568791e105d6 16
+Clipy/Sources/Models/ClipStore.swift
+  a827568791e105d6 168
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "a57c6c767b885158316197f6ab0325e014821954",
+  "prompts": {
+    "a827568791e105d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d769c531-53d2-4d4b-99a8-78b0a60df549",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Dmytro Riazanov",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}

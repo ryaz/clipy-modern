@@ -165,7 +165,7 @@ final class ClipStore: ObservableObject {
     }
 
     private func pruneIfNeeded() {
-        let limit = max(UserDefaults.standard.integer(forKey: Constants.maxHistoryCount), 500)
+        let limit = max(UserDefaults.standard.integer(forKey: Constants.maxHistoryCount), 10)
         let pinned = clips.filter(\.isPinned)
         var unpinned = clips.filter { !$0.isPinned }
         if unpinned.count > limit {

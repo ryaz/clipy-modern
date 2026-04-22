@@ -13,7 +13,7 @@ import SwiftUI
         if clips.isEmpty {
             menu.addItem(NSMenuItem(title: "No items", action: nil, keyEquivalent: ""))
         } else {
-            for (i, clip) in clips.prefix(30).enumerated() {
+            for (i, clip) in clips.prefix(10).enumerated() {
                 let key = i < 9 ? "\(i + 1)" : ""
                 let title = "\(i + 1). \(clip.displayTitle.prefix(80))"
                 let item = NSMenuItem(title: title, action: #selector(historyItemClicked(_:)), keyEquivalent: key)
